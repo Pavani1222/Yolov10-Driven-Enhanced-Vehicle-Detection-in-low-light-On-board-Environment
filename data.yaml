@@ -1,0 +1,9 @@
+
+
+train: E:/MAIN_CODE/train/images
+val: E:/MAIN_CODE/valid/images
+test: E:/MAIN_CODE/test/images
+
+nc: 12
+names: ['Bicycle', 'Bus', 'Car', 'Cat', 'Dog', 'Light', 'Motorcycle', 'Person', 'Pothole', 'Sign', 'Tree', 'Truck']
+

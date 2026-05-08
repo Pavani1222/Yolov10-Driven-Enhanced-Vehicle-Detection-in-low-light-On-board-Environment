@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Night Time Vehicle Detection</title>
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/assets/css/templatemo-hexashop.css">
+    <link rel="stylesheet" href="static/assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="static/assets/css/lightbox.css">
+
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        /* Header Area Styles */
+        .header-area {
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-area.header-sticky {
+            background: rgba(15, 12, 41, 0.98);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+            flex: 0 0 auto;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text i {
+            font-size: 1.4rem;
+            color: #ffd54f;
+            text-shadow: 0 0 10px rgba(255, 213, 79, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover .logo-text {
+            color: #64b5f6;
+            transform: scale(1.02);
+        }
+
+        .logo:hover .logo-text i {
+            color: #64b5f6;
+            transform: rotate(15deg);
+        }
+
+        /* Navigation Menu Styles */
+        .main-nav .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            flex: 1;
+            gap: 8px;
+            max-width: 800px;
+        }
+
+        .main-nav .nav li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-nav .nav li a {
+            color: #ffffff !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 14px !important;
+            border-radius: 20px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .main-nav .nav li a:hover {
+            color: #64b5f6 !important;
+            background: rgba(100, 181, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .main-nav .nav li a.active {
+            color: #ffd54f !important;
+            background: rgba(255, 213, 79, 0.15);
+        }
+
+        .main-nav .nav li a i {
+            font-size: 0.85rem;
+        }
+
+        /* Menu Trigger Styles */
+        .menu-trigger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            margin-left: 15px;
+            z-index: 1001;
+        }
+
+        .menu-trigger span {
+            display: block;
+            width: 22px;
+            height: 2.5px;
+            background: #ffffff;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-trigger span:before,
+        .menu-trigger span:after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 2.5px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .menu-trigger span:before {
+            top: -7px;
+        }
+
+        .menu-trigger span:after {
+            top: 7px;
+        }
+
+        .menu-trigger:hover span {
+            background: #ffd54f;
+        }
+
+        .menu-trigger:hover span:before,
+        .menu-trigger:hover span:after {
+            background: #ffd54f;
+        }
+
+        /* Main Banner Styles */
+        .main-banner {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 80px 0;
+            margin-top: 70px;
+        }
+        
+        .main-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 213, 79, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(156, 39, 176, 0.1) 0%, transparent 50%);
+            animation: floatingGradient 15s ease-in-out infinite;
+        }
+        
+        @keyframes floatingGradient {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        .right-content {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .right-first-image {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            padding: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .right-first-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(100, 181, 246, 0.1),
+                transparent,
+                rgba(255, 213, 79, 0.1),
+                transparent
+            );
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .right-first-image:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .thumb {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .inner-content h4 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-shadow: 
+                0 2px 10px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(100, 181, 246, 0.3);
+            background: linear-gradient(135deg, #ffffff, #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .inner-content span {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .main-border-button a {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #ffd54f 0%, #ffca28 100%);
+            color: #1e3c72;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 20px rgba(255, 213, 79, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-border-button a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .main-border-button a:hover::before {
+            left: 100%;
+        }
+
+        .main-border-button a:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 8px 30px rgba(255, 213, 79, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            background: linear-gradient(135deg, #ffca28 0%, #ffd54f 100%);
+        }
+
+        .image-container {
+            width: 100%;
+            margin-top: 40px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(100, 181, 246, 0.1), rgba(255, 213, 79, 0.1));
+            z-index: 1;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            filter: brightness(0.9) contrast(1.1);
+        }
+        
+        .image-container:hover img {
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1.2);
+        }
+
+        /* Section Styles */
+        .section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(100, 181, 246, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(255, 213, 79, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .section-heading {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-heading h2 {
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-heading h2 i {
+            color: #ffd54f;
+            font-size: 2rem;
+        }
+        
+        .section-heading span, .section-heading p {
+            color: #ffffff;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Carousel Item Styles */
+        .item .thumb {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .item .thumb:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .item .thumb img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            filter: brightness(0.8) contrast(1.1);
+            transition: all 0.5s ease;
+        }
+        
+        .item .thumb:hover img {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.2);
+        }
+        
+        .hover-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(15, 12, 41, 0.95), rgba(48, 43, 99, 0.95));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .item .thumb:hover .hover-content {
+            opacity: 1;
+        }
+        
+        .hover-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .hover-content ul li {
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.5s ease forwards;
+        }
+        
+        .hover-content ul li:nth-child(1) { animation-delay: 0.1s; }
+        .hover-content ul li:nth-child(2) { animation-delay: 0.2s; }
+        .hover-content ul li:nth-child(3) { animation-delay: 0.3s; }
+        
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .hover-content ul li a {
+            color: #ffffff;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            display: block;
+            padding: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .hover-content ul li a:hover {
+            color: #ffd54f;
+            transform: scale(1.2) rotate(360deg);
+            background: rgba(255, 213, 79, 0.2);
+        }
+
+        .down-content {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .stars {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .stars li {
+            color: #ffd54f;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 213, 79, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .stars li:nth-child(2) { animation-delay: 0.2s; }
+        .stars li:nth-child(3) { animation-delay: 0.4s; }
+        .stars li:nth-child(4) { animation-delay: 0.6s; }
+        .stars li:nth-child(5) { animation-delay: 0.8s; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Social Section */
+        #social {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #social::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 181, 246, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        #social .section-heading {
+            position: relative;
+            z-index: 1;
+        }
+        
+        #social .section-heading h2 {
+            color: #ffffff;
+        }
+        
+        #social .section-heading span {
+            color: #ffffff;
+        }
+        
+        .thumb .icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .thumb:hover .icon {
+            opacity: 1;
+        }
+        
+        .thumb .icon a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(15, 12, 41, 0.9);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .thumb .icon a:hover {
+            color: #ffd54f;
+            transform: scale(1.1);
+            background: rgba(255, 213, 79, 0.2);
+        }
+        
+        .thumb .icon i {
+            font-size: 1.5rem;
+        }
+
+        /* Explore Section */
+        #explore {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        .left-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .quote {
+            background: linear-gradient(135deg, rgba(100, 181, 246, 0.1), rgba(255, 213, 79, 0.1));
+            border-left: 4px solid #ffd54f;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .quote i {
+            color: #ffd54f;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+        
+        .quote p {
+            color: #ffffff;
+            font-style: italic;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Subscribe Section */
+        .subscribe {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscribe::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 40%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 60%, rgba(255, 213, 79, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .subscribe .section-heading {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subscribe .section-heading h2 {
+            color: #ffffff;
+        }
+        
+        .subscribe .section-heading span {
+            color: #ffffff;
+        }
+        
+        .subscribe input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .subscribe input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #64b5f6;
+            box-shadow: 0 0 20px rgba(100, 181, 246, 0.3);
+            outline: none;
+        }
+        
+        .subscribe input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .subscribe ul {
+            color: #ffffff;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .subscribe ul li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .subscribe ul i {
+            color: #ffd54f;
+            width: 20px;
+        }
+        
+        .subscribe ul span {
+            color: #ffffff;
+        }
+        
+        .subscribe ul a {
+            color: #64b5f6;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .subscribe ul a:hover {
+            color: #ffd54f;
+        }
+        
+        .main-dark-button {
+            background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(100, 181, 246, 0.3);
+        }
+        
+        .main-dark-button:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 6px 30px rgba(100, 181, 246, 0.5);
+            background: linear-gradient(135deg, #42a5f5 0%, #64b5f6 100%);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 213, 79, 0.5), transparent);
+        }
+        
+        footer h4 {
+            color: #ffd54f;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        footer h4 i {
+            font-size: 1.2rem;
+        }
+        
+        footer a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        footer a:hover {
+            color: #ffd54f;
+            transform: translateX(5px);
+        }
+        
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        footer ul li {
+            margin-bottom: 12px;
+        }
+        
+        .first-item {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .under-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .under-footer p {
+            color: #ffffff;
+            margin: 0;
+        }
+        
+        .under-footer ul {
+            display: flex;
+            gap: 20px;
+            margin: 0;
+        }
+        
+        .under-footer ul li a {
+            font-size: 1.5rem;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .under-footer ul li a:hover {
+            background: rgba(255, 213, 79, 0.2);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .main-nav .nav li a {
+                font-size: 0.85rem;
+                padding: 6px 12px !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .logo-text {
+                font-size: 0.9rem;
+                gap: 8px;
+            }
+            
+            .logo-text i {
+                font-size: 1.2rem;
+            }
+            
+            .main-nav .nav {
+                gap: 5px;
+            }
+            
+            .main-nav .nav li a {
+                font-size: 0.8rem;
+                padding: 6px 10px !important;
+            }
+            
+            .main-nav .nav li a i {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 10px 0;
+            }
+            
+            .logo-text {
+                font-size: 0.85rem;
+                gap: 6px;
+            }
+            
+            .logo-text i {
+                font-size: 1.1rem;
+            }
+            
+            .main-nav .nav {
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: rgba(15, 12, 41, 0.98) !important;
+                backdrop-filter: blur(20px) !important;
+                flex-direction: column !important;
+                padding: 20px !important;
+                border-radius: 0 0 15px 15px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+                max-width: 100% !important;
+            }
+            
+            .main-nav .nav.active {
+                display: flex !important;
+            }
+            
+            .main-nav .nav li {
+                width: 100% !important;
+                margin: 5px 0 !important;
+            }
+            
+            .main-nav .nav li a {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 12px !important;
+                border-radius: 10px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .menu-trigger {
+                display: flex !important;
+            }
+            
+            .main-banner {
+                padding: 100px 0 60px 0;
+                margin-top: 60px;
+            }
+            
+            .inner-content h4 {
+                font-size: 2rem;
+            }
+            
+            .section-heading h2 {
+                font-size: 2rem;
+            }
+            
+            .right-first-image {
+                padding: 30px 20px;
+            }
+            
+            .left-content {
+                padding: 30px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-text span {
+                display: none !important;
+            }
+            
+            .logo-text i {
+                font-size: 1.3rem;
+            }
+            
+            .inner-content h4 {
+                font-size: 1.8rem;
+            }
+            
+            .section-heading h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+    
+<body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>  
+    <!-- ***** Preloader End ***** -->
+    
+    
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="/" class="logo">
+                            <div class="logo-text">
+                                <i class="fas fa-moon"></i>
+                                <span>NIGHT TIME VEHICLES DETECTION</span>
+                            </div>
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section">
+                                <a href="#top" class="active">
+                                    <i class="fas fa-home"></i>
+                                    Home
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="#men">
+                                    <i class="fas fa-car"></i>
+                                    Cars
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="#women">
+                                    <i class="fas fa-truck"></i>
+                                    Trucks
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="#kids">
+                                    <i class="fas fa-motorcycle"></i>
+                                    Motorcycles
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="/register">
+                                    <i class="fas fa-user-plus"></i>
+                                    Register
+                                </a>
+                            </li>
+                          
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span></span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Banner Area Start ***** -->
+    <div class="main-banner" id="top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="right-content">
+                    <div class="right-first-image">
+                        <div class="thumb">
+                            <div class="inner-content">
+                                <h4>Night Time Vehicle Detection</h4>
+                                <span>Advanced AI-powered detection system for enhanced road safety and traffic monitoring</span>
+                                <div class="main-border-button">
+                                    <a href="/register">Get Started</a>
+                                </div>
+                            </div>
+                            <div class="image-container">
+                                <img src="results/result_2015_05989_jpg.rf.00dd55fd1bd82e0017eebb813a26f435.jpg" alt="Night Time Vehicle Detection System">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
+
+    <!-- ***** Cars Area Starts ***** -->
+    <section class="section" id="men">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h2><i class="fas fa-car"></i> Car Detection</h2>
+                        <span>Our advanced YOLO-based system excels at detecting various types of cars during nighttime conditions. The algorithm is trained to identify passenger vehicles, sedans, SUVs, and hatchbacks even in low-light environments with challenging visibility conditions.</span>
+                        <p>Nighttime car detection presents unique challenges including glare from headlights, varying weather conditions, and reduced visibility. Our system overcomes these obstacles through specialized training on diverse nighttime datasets and advanced image processing techniques that enhance detection accuracy in challenging lighting scenarios.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="men-item-carousel">
+                        <div class="owl-men-item owl-carousel">
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_video-vHLKy4kSYoaPYZoQo-frame-007170-9NtDyXdJnn7nJJH4R_jpg.rf.dbd36b9f28439e233aa35142b18112ee.jpg" alt="Night Cars Highway">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_01897_jpg.rf.b1aaae2fb12f289682c66b31e2656859.jpg" alt="Night City Traffic">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_00191_jpg.rf.7a0d6b7ccdc88ae19be7ceebd3ae2c20.jpg" alt="Night Rain Traffic">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_01880_png.rf.ab7671006c790a39e2cc73a24400b06a.jpg" alt="Night Parking Lot">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Cars Area Ends ***** -->
+
+    <!-- ***** Trucks Area Starts ***** -->
+    <section class="section" id="women">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h2><i class="fas fa-truck"></i> Truck Detection</h2>
+                        <span>Our system is specifically optimized to detect various types of trucks during nighttime operations, including commercial vehicles, delivery trucks, and heavy-duty transport. The algorithm can distinguish trucks from other vehicles even in complex traffic scenarios with multiple light sources.</span>
+                        <p>Detecting trucks at night is crucial for traffic management, road safety, and logistics monitoring. Our system can accurately identify truck dimensions, track their movements, and provide valuable data for traffic flow optimization and safety monitoring in commercial zones and highways.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="women-item-carousel">
+                        <div class="owl-women-item owl-carousel">
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_01897_jpg.rf.b1aaae2fb12f289682c66b31e2656859.jpg" alt="Night Truck Highway">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_20211220_20211220195233_20211220211453_195231_crop_1202_jpg.rf.1c72f8217b23d14162e7d2a943eee40b.jpg" alt="Night Delivery Truck">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_truck_124_jpg.rf.1467a2e763f1264fb156b0c44725b86d.jpg" alt="Night Construction Truck">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_truck_8_jpg.rf.82692cd139269774622ee53de100a143.jpg" alt="Night Truck Terminal">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Trucks Area Ends ***** -->
+
+    <!-- ***** Motorcycles Area Starts ***** -->
+    <section class="section" id="kids">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                        <h2><i class="fas fa-motorcycle"></i> Motorcycle Detection</h2>
+                        <span>Motorcycle detection at night presents unique challenges due to their smaller profile and varying lighting configurations. Our system is specifically trained to identify motorcycles in nighttime conditions, distinguishing them from other vehicles with high accuracy.</span>
+                        <p>Our advanced algorithm can detect motorcycles with or without headlights, in various weather conditions, and even when partially obscured. This capability is essential for traffic safety monitoring, as motorcycles are particularly vulnerable in nighttime traffic scenarios.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="kid-item-carousel">
+                        <div class="owl-kid-item owl-carousel">
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_00156_jpg.rf.47c56ce4229aca755064b00053300abe.jpg" alt="Night Motorcycle Highway">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_02229_jpg.rf.f1d33ed822fc9bc472b0f4dd7ba05839.jpg" alt="Night Motorcycle City">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_2015_00650_jpg.rf.7598ebf82a27dfc5bbbcc3cca20c0bd9.jpg" alt="Night Motorcycle Group">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <div class="thumb">
+                                    <div class="hover-content">
+                                        <ul>
+                                            <li><a href="/single-product"><i class="fas fa-eye"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-star"></i></a></li>
+                                            <li><a href="/single-product"><i class="fas fa-chart-line"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <img src="results/result_Sequence-010156_png_jpg.rf.7104b3adce5b257dd67d324792bda446.jpg" alt="Night Motorcycle Rain">
+                                </div>
+                                <div class="down-content">
+                                    <ul class="stars">
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                        <li><i class="fas fa-star"></i></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Motorcycles Area Ends ***** -->
+
+    <!-- ***** Explore Area Starts ***** -->
+    <section class="section" id="explore">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="left-content">
+                        <h2 style="color:white;"><i class="fas fa-moon"></i> Night Time Vehicle Detection Using Improved YOLO</h2>
+                        <span>Our Night Time Vehicle Detection System leverages the advanced YOLO (You Only Look Once) algorithm to deliver real-time, accurate identification of vehicles in challenging nighttime conditions.</span>
+                        <div class="quote" style="color:white;">
+                            <i class="fas fa-quote-left"></i><p>"YOLO's speed and precision make it an ideal tool for detecting and tracking vehicles in dynamic nighttime traffic settings."</p>
+                        </div>
+                        <p>Using YOLO, our system can identify multiple types of vehicles in a single frame, ensuring comprehensive detection. The model has been trained on extensive nighttime datasets to recognize various vehicle categories with high accuracy, even in challenging lighting conditions or adverse weather.</p>
+                        <p>Our technology is ideal for applications such as traffic flow monitoring, automated tolling, parking management, and security surveillance. By deploying this solution, you can monitor, analyze, and optimize nighttime traffic patterns effectively and efficiently.</p>
+                        <div class="main-border-button">
+                            <a href="/register">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="right-content">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="leather">
+                                    <div class="placeholder-box" style="height: 200px; background: linear-gradient(135deg, rgba(100, 181, 246, 0.2), rgba(255, 213, 79, 0.2)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1.2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                                        <i class="fas fa-brain" style="font-size: 3rem; margin-right: 15px;"></i>
+                                        AI Detection
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="first-image">
+                                    <div class="placeholder-box" style="height: 200px; background: linear-gradient(135deg, rgba(156, 39, 176, 0.2), rgba(103, 58, 183, 0.2)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1.2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); margin-top: 15px;">
+                                        <i class="fas fa-camera" style="font-size: 3rem; margin-right: 15px;"></i>
+                                        Night Vision
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="second-image">
+                                    <div class="placeholder-box" style="height: 200px; background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(139, 195, 74, 0.2)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1.2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); margin-top: 15px;">
+                                        <i class="fas fa-chart-line" style="font-size: 3rem; margin-right: 15px;"></i>
+                                        Analytics
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="third-image">
+                                    <div class="placeholder-box" style="height: 200px; background: linear-gradient(135deg, rgba(255, 152, 0, 0.2), rgba(255, 193, 7, 0.2)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 1.2rem; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); margin-top: 15px;">
+                                        <i class="fas fa-shield-alt" style="font-size: 3rem; margin-right: 15px;"></i>
+                                        Safety
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Explore Area Ends ***** -->
+
+    <!-- ***** Social Area Starts ***** -->
+    <section class="section" id="social">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <h2><i class="fas fa-share-alt"></i> Social Media</h2>
+                        <span>Follow us for the latest updates on night time vehicle detection technology and traffic safety innovations.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row images">
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Night Traffic</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(100, 181, 246, 0.3), rgba(255, 213, 79, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-traffic-light"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Highway</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(156, 39, 176, 0.3), rgba(103, 58, 183, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-road"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>City Lights</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(76, 175, 80, 0.3), rgba(139, 195, 74, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-city"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Traffic Flow</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(255, 152, 0, 0.3), rgba(255, 193, 7, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-stream"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Smart City</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(233, 30, 99, 0.3), rgba(244, 67, 54, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="thumb">
+                        <div class="icon">
+                            <a href="http://instagram.com">
+                                <h6>Road Safety</h6>
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                        <div class="placeholder-box" style="height: 150px; background: linear-gradient(135deg, rgba(0, 188, 212, 0.3), rgba(0, 150, 136, 0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 2rem;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Social Area Ends ***** -->
+
+    <!-- ***** Subscribe Area Starts ***** -->
+    <div class="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="section-heading">
+                        <h2><i class="fas fa-envelope"></i> Subscribe to Our Newsletter</h2>
+                        <span>Get the latest updates on night time vehicle detection technology and traffic safety innovations.</span>
+                    </div>
+                    <form id="subscribe" action="" method="get">
+                        <div class="row">
+                          <div class="col-lg-5">
+                            <fieldset>
+                              <input name="name" type="text" id="name" placeholder="Your Name" required="">
+                            </fieldset>
+                          </div>
+                          <div class="col-lg-5">
+                            <fieldset>
+                              <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
+                            </fieldset>
+                          </div>
+                          <div class="col-lg-2">
+                            <fieldset>
+                              <button type="submit" id="form-submit" class="main-dark-button"><i class="fas fa-paper-plane"></i></button>
+                            </fieldset>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-6">
+                            <ul>
+                                <li><i class="fas fa-map-marker-alt"></i> Office Location:<br><span>Tech Hub District</span></li>
+                                <li><i class="fas fa-phone"></i> Phone:<br><span>010-020-0340</span></li>
+                                <li><i class="fas fa-flask"></i> Lab Location:<br><span>Innovation Center</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul>
+                                <li><i class="fas fa-clock"></i> Work Hours:<br><span>24/7 Support Available</span></li>
+                                <li><i class="fas fa-envelope"></i> Email:<br><span>info@vehicledetection.com</span></li>
+                                <li><i class="fas fa-share-alt"></i> Social Media:<br><span><a href="#">Facebook</a>, <a href="#">Twitter</a>, <a href="#">LinkedIn</a>, <a href="#">YouTube</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Subscribe Area Ends ***** -->
+    
+    <!-- ***** Footer Start ***** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="first-item">
+                       
+                        <ul>
+                            <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Tech Street, Innovation District, Silicon Valley, CA 94025, United States</a></li>
+                            <li><a href="#"><i class="fas fa-envelope"></i> contact@vehicledetection.com</a></li>
+                            <li><a href="#"><i class="fas fa-phone"></i> 010-020-0340</a></li>
+                        </ul>
+                    </div>
+                </div>
+              
+                <div class="col-lg-3">
+                    <h4><i class="fas fa-link"></i> Useful Links</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Homepage</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-microchip"></i> Technology</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4><i class="fas fa-question-circle"></i> Help &amp; Information</h4>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+                        <li><a href="#"><i class="fas fa-question"></i> FAQ's</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Support</a></li>
+                        <li><a href="#"><i class="fas fa-key"></i> API Access</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h4><i class="fas fa-bell"></i> Stay Updated</h4>
+                    <p>Subscribe to our newsletter for the latest updates on AI-powered vehicle detection technology.</p>
+                    <div class="main-border-button">
+                        <a href="/register">Subscribe Now</a>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <p>Copyright © 2024 Night Vision Detection Systems, Inc. All Rights Reserved. 
+                        
+                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">Template</a></p>
+                        <ul>
+                            <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                            <li><a href="#"><i class="fab fa-github"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
+    <!-- jQuery -->
+    <script src="static/assets/js/jquery-2.1.0.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="static/assets/js/popper.js"></script>
+    <script src="static/assets/js/bootstrap.min.js"></script>
+
+    <!-- Plugins -->
+    <script src="static/assets/js/owl-carousel.js"></script>
+    <script src="static/assets/js/accordions.js"></script>
+    <script src="static/assets/js/datepicker.js"></script>
+    <script src="static/assets/js/scrollreveal.min.js"></script>
+    <script src="static/assets/js/waypoints.min.js"></script>
+    <script src="static/assets/js/jquery.counterup.min.js"></script>
+    <script src="static/assets/js/imgfix.min.js"></script> 
+    <script src="static/assets/js/slick.js"></script> 
+    <script src="static/assets/js/lightbox.js"></script> 
+    <script src="static/assets/js/isotope.js"></script> 
+    
+    <!-- Global Init -->
+    <script src="static/assets/js/custom.js"></script>
+
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuTrigger = document.querySelector('.menu-trigger');
+            const navMenu = document.querySelector('.main-nav .nav');
+            
+            if (menuTrigger && navMenu) {
+                menuTrigger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    
+                    // Animate hamburger menu
+                    const span = menuTrigger.querySelector('span');
+                    if (navMenu.classList.contains('active')) {
+                        span.style.background = 'transparent';
+                        span.style.transform = 'rotate(45deg)';
+                        
+                        setTimeout(() => {
+                            span.style.background = '#ffd54f';
+                        }, 150);
+                    } else {
+                        span.style.background = '#ffffff';
+                        span.style.transform = 'rotate(0)';
+                    }
+                });
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.main-nav') && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    const span = menuTrigger.querySelector('span');
+                    span.style.background = '#ffffff';
+                    span.style.transform = 'rotate(0)';
+                }
+            });
+            
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('.main-nav .nav li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('active');
+                        const span = menuTrigger.querySelector('span');
+                        span.style.background = '#ffffff';
+                        span.style.transform = 'rotate(0)';
+                    }
+                });
+            });
+            
+            // Add smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Update active navigation on scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.main-nav .nav li a');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    link.style.background = 'transparent';
+                    link.style.color = '#ffffff';
+                    if (link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                        link.style.background = 'rgba(255, 213, 79, 0.15)';
+                        link.style.color = '#ffd54f';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

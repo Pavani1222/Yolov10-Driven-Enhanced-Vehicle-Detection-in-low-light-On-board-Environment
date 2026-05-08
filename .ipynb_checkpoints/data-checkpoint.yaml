@@ -1,0 +1,13 @@
+train: E:/TR/NEW_NIGHT/MAIN_CODE/train/images
+val: E:/TR/NEW_NIGHT/MAIN_CODE/valid/images
+test: E:/TR/NEW_NIGHT/MAIN_CODE/test/images
+
+nc: 12
+names: ['Bicycle', 'Bus', 'Car', 'Cat', 'Dog', 'Light', 'Motorcycle', 'Person', 'Pothole', 'Sign', 'Tree', 'Truck']
+
+roboflow:
+  workspace: datasetcolabset
+  project: night-dataset-ml6j6
+  version: 2
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/datasetcolabset/night-dataset-ml6j6/dataset/2

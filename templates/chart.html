@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Night Time Vehicle Detection - Charts</title>
+    
+    <!-- Load stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="static/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/assets/css/font-awesome.css">
+    <link rel="stylesheet" href="static/assets/css/templatemo-hexashop.css">
+    <link rel="stylesheet" href="static/assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="static/assets/css/lightbox.css">
+    <link rel="stylesheet" type="text/css" href="static/css/datepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="static/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="static/slick/slick-theme.css"/>
+    <link rel="stylesheet" href="static/css/templatemo-style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            padding-top: 70px;
+        }
+
+        /* Header Area Styles */
+        .header-area {
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-area.header-sticky {
+            background: rgba(15, 12, 41, 0.98);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        /* Logo Styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0;
+            margin: 0;
+            flex: 0 0 auto;
+            text-decoration: none;
+            z-index: 1001;
+        }
+
+        .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .logo-text i {
+            font-size: 1.4rem;
+            color: #ffd54f;
+            text-shadow: 0 0 10px rgba(255, 213, 79, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover .logo-text {
+            color: #64b5f6;
+            transform: scale(1.02);
+        }
+
+        .logo:hover .logo-text i {
+            color: #64b5f6;
+            transform: rotate(15deg);
+        }
+
+        /* Navigation Menu Styles */
+        .main-nav .nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            flex: 1;
+            gap: 8px;
+            max-width: 800px;
+        }
+
+        .main-nav .nav li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-nav .nav li a {
+            color: #ffffff !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 14px !important;
+            border-radius: 20px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .main-nav .nav li a:hover {
+            color: #64b5f6 !important;
+            background: rgba(100, 181, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .main-nav .nav li a.active {
+            color: #ffd54f !important;
+            background: rgba(255, 213, 79, 0.15);
+        }
+
+        .main-nav .nav li a i {
+            font-size: 0.85rem;
+        }
+
+        /* Menu Trigger Styles */
+        .menu-trigger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            margin-left: 15px;
+            z-index: 1001;
+        }
+
+        .menu-trigger span {
+            display: block;
+            width: 22px;
+            height: 2.5px;
+            background: #ffffff;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-trigger span:before,
+        .menu-trigger span:after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 2.5px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .menu-trigger span:before {
+            top: -7px;
+        }
+
+        .menu-trigger span:after {
+            top: 7px;
+        }
+
+        .menu-trigger:hover span {
+            background: #ffd54f;
+        }
+
+        .menu-trigger:hover span:before,
+        .menu-trigger:hover span:after {
+            background: #ffd54f;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            min-height: calc(100vh - 70px);
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 213, 79, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(156, 39, 176, 0.1) 0%, transparent 50%);
+            animation: floatingGradient 15s ease-in-out infinite;
+        }
+        
+        @keyframes floatingGradient {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(120deg); }
+            66% { transform: translate(20px, -10px) rotate(240deg); }
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 
+                0 2px 10px rgba(0, 0, 0, 0.3),
+                0 0 40px rgba(100, 181, 246, 0.3);
+            background: linear-gradient(135deg, #ffffff, #64b5f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            flex: 0 1 calc(50% - 30px);
+            max-width: 500px;
+            transition: all 0.4s ease;
+            position: relative;
+            padding: 25px;
+        }
+        
+        .chart-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(100, 181, 246, 0.1),
+                transparent,
+                rgba(255, 213, 79, 0.1),
+                transparent
+            );
+            animation: shimmer 3s linear infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .chart-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .chart-header h2 i {
+            color: #ffd54f;
+            font-size: 1.3rem;
+        }
+
+        .chart-content {
+            position: relative;
+            z-index: 1;
+            height: 300px;
+        }
+
+        .info-box {
+            max-width: 800px;
+            margin: 40px auto 0;
+            padding: 25px;
+            background: rgba(100, 181, 246, 0.1);
+            border-left: 4px solid #64b5f6;
+            border-radius: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-box h3 {
+            color: #64b5f6;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box p {
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .logo-text {
+                font-size: 1rem;
+            }
+            
+            .main-nav .nav li a {
+                font-size: 0.85rem;
+                padding: 6px 12px !important;
+            }
+            
+            .chart-card {
+                flex: 0 1 calc(50% - 30px);
+                max-width: calc(50% - 30px);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .logo-text {
+                font-size: 0.9rem;
+                gap: 8px;
+            }
+            
+            .logo-text i {
+                font-size: 1.2rem;
+            }
+            
+            .main-nav .nav {
+                gap: 5px;
+            }
+            
+            .main-nav .nav li a {
+                font-size: 0.8rem;
+                padding: 6px 10px !important;
+            }
+            
+            .main-nav .nav li a i {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-nav {
+                padding: 10px 0;
+            }
+            
+            .logo-text {
+                font-size: 0.85rem;
+                gap: 6px;
+            }
+            
+            .logo-text i {
+                font-size: 1.1rem;
+            }
+            
+            .main-nav .nav {
+                display: none !important;
+                position: absolute !important;
+                top: 100% !important;
+                left: 0 !important;
+                right: 0 !important;
+                background: rgba(15, 12, 41, 0.98) !important;
+                backdrop-filter: blur(20px) !important;
+                flex-direction: column !important;
+                padding: 20px !important;
+                border-radius: 0 0 15px 15px !important;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+                max-width: 100% !important;
+            }
+            
+            .main-nav .nav.active {
+                display: flex !important;
+            }
+            
+            .main-nav .nav li {
+                width: 100% !important;
+                margin: 5px 0 !important;
+            }
+            
+            .main-nav .nav li a {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 12px !important;
+                border-radius: 10px !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .menu-trigger {
+                display: flex !important;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .chart-card {
+                flex: 0 1 calc(100% - 30px);
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .logo-text span {
+                display: none !important;
+            }
+            
+            .logo-text i {
+                font-size: 1.3rem;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .chart-header h2 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="/" class="logo">
+                            <div class="logo-text">
+                                <i class="fas fa-moon"></i>
+                                <span>NIGHT TIME VEHICLES DETECTION</span>
+                            </div>
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section">
+                                <a href="/" class="active">
+                                    <i class="fas fa-home"></i>
+                                    Home
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="/index">
+                                    <i class="fas fa-upload"></i>
+                                    Upload
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="/performance">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Performance
+                                </a>
+                            </li>
+                            <li class="scroll-to-section">
+                                <a href="/chart">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Chart
+                                </a>
+                            </li>
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span></span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+
+    <!-- ***** Main Content Start ***** -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1>Detection Analytics</h1>
+            <p>Visualization of our YOLO model's performance metrics and detection statistics</p>
+        </div>
+
+        <div class="charts-container">
+            <!-- Pie Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2><i class="fas fa-chart-pie"></i> Vehicle Type Distribution</h2>
+                </div>
+                <div class="chart-content">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+    
+            <!-- Bar Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2><i class="fas fa-chart-bar"></i> Detection Count by Type</h2>
+                </div>
+                <div class="chart-content">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+    
+            <!-- Line Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2><i class="fas fa-chart-line"></i> Detection Accuracy Over Time</h2>
+                </div>
+                <div class="chart-content">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+    
+            <!-- Radar Chart -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h2><i class="fas fa-chart-area"></i> Performance Metrics</h2>
+                </div>
+                <div class="chart-content">
+                    <canvas id="radarChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Model Performance Analysis</h3>
+            <p>Our YOLO-based night time vehicle detection model demonstrates exceptional performance across multiple metrics. The vehicle type distribution chart shows the model's ability to accurately identify different vehicle categories, while the detection accuracy over time illustrates consistent performance improvement. The performance metrics radar chart provides a comprehensive view of precision, recall, F1-score, and other key indicators, confirming the model's reliability for real-world applications.</p>
+        </div>
+    </div>
+    <!-- ***** Main Content End ***** -->
+
+    <!-- Load scripts -->
+    <script src="static/assets/js/jquery-2.1.0.min.js"></script>
+    <script src="static/assets/js/popper.js"></script>
+    <script src="static/assets/js/bootstrap.min.js"></script>
+    <script src="static/assets/js/owl-carousel.js"></script>
+    <script src="static/assets/js/accordions.js"></script>
+    <script src="static/assets/js/datepicker.js"></script>
+    <script src="static/assets/js/scrollreveal.min.js"></script>
+    <script src="static/assets/js/waypoints.min.js"></script>
+    <script src="static/assets/js/jquery.counterup.min.js"></script>
+    <script src="static/assets/js/imgfix.min.js"></script> 
+    <script src="static/assets/js/slick.js"></script> 
+    <script src="static/assets/js/lightbox.js"></script> 
+    <script src="static/assets/js/isotope.js"></script> 
+    <script src="static/assets/js/custom.js"></script>
+
+    <script>
+        // Mobile Menu Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuTrigger = document.querySelector('.menu-trigger');
+            const navMenu = document.querySelector('.main-nav .nav');
+            
+            if (menuTrigger && navMenu) {
+                menuTrigger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    
+                    // Animate hamburger menu
+                    const span = menuTrigger.querySelector('span');
+                    if (navMenu.classList.contains('active')) {
+                        span.style.background = 'transparent';
+                        span.style.transform = 'rotate(45deg)';
+                        
+                        setTimeout(() => {
+                            span.style.background = '#ffd54f';
+                        }, 150);
+                    } else {
+                        span.style.background = '#ffffff';
+                        span.style.transform = 'rotate(0)';
+                    }
+                });
+            }
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.main-nav') && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    const span = menuTrigger.querySelector('span');
+                    span.style.background = '#ffffff';
+                    span.style.transform = 'rotate(0)';
+                }
+            });
+            
+            // Close menu when clicking on a link
+            const navLinks = document.querySelectorAll('.main-nav .nav li a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        navMenu.classList.remove('active');
+                        const span = menuTrigger.querySelector('span');
+                        span.style.background = '#ffffff';
+                        span.style.transform = 'rotate(0)';
+                    }
+                });
+            });
+            
+            // Initialize Charts
+            initializeCharts();
+        });
+        
+        function initializeCharts() {
+            // Set default font color for all charts
+            Chart.defaults.color = '#ffffff';
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+            
+            // Pie Chart - Vehicle Type Distribution
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Cars', 'Trucks', 'Motorcycles', 'Buses', 'Others'],
+                    datasets: [{
+                        label: 'Vehicle Type Distribution',
+                        data: [45, 25, 20, 7, 3],
+                        backgroundColor: [
+                            'rgba(255, 213, 79, 0.8)',
+                            'rgba(100, 181, 246, 0.8)',
+                            'rgba(156, 39, 176, 0.8)',
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(255, 152, 0, 0.8)'
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 12, 41, 0.8)',
+                            titleColor: '#ffd54f',
+                            bodyColor: '#ffffff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+    
+            // Bar Chart - Detection Count by Type
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cars', 'Trucks', 'Motorcycles', 'Buses', 'Others'],
+                    datasets: [{
+                        label: 'Detection Count',
+                        data: [320, 180, 145, 50, 22],
+                        backgroundColor: [
+                            'rgba(255, 213, 79, 0.8)',
+                            'rgba(100, 181, 246, 0.8)',
+                            'rgba(156, 39, 176, 0.8)',
+                            'rgba(76, 175, 80, 0.8)',
+                            'rgba(255, 152, 0, 0.8)'
+                        ],
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 12, 41, 0.8)',
+                            titleColor: '#ffd54f',
+                            bodyColor: '#ffffff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+    
+            // Line Chart - Detection Accuracy Over Time
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+                    datasets: [{
+                        label: 'Detection Accuracy',
+                        data: [75, 78, 82, 85, 88, 91],
+                        borderColor: 'rgba(255, 213, 79, 1)',
+                        backgroundColor: 'rgba(255, 213, 79, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Processing Speed',
+                        data: [65, 70, 75, 80, 85, 90],
+                        borderColor: 'rgba(100, 181, 246, 1)',
+                        backgroundColor: 'rgba(100, 181, 246, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 60,
+                            max: 100,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 12, 41, 0.8)',
+                            titleColor: '#ffd54f',
+                            bodyColor: '#ffffff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+    
+            // Radar Chart - Performance Metrics
+            const radarCtx = document.getElementById('radarChart').getContext('2d');
+            new Chart(radarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Precision', 'Recall', 'F1-Score', 'Accuracy', 'Speed', 'Robustness'],
+                    datasets: [{
+                        label: 'Current Model',
+                        data: [92, 88, 90, 91, 85, 87],
+                        backgroundColor: 'rgba(255, 213, 79, 0.2)',
+                        borderColor: 'rgba(255, 213, 79, 1)',
+                        pointBackgroundColor: 'rgba(255, 213, 79, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(255, 213, 79, 1)'
+                    }, {
+                        label: 'Previous Model',
+                        data: [85, 82, 83, 84, 78, 80],
+                        backgroundColor: 'rgba(100, 181, 246, 0.2)',
+                        borderColor: 'rgba(100, 181, 246, 1)',
+                        pointBackgroundColor: 'rgba(100, 181, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(100, 181, 246, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            pointLabels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            ticks: {
+                                color: '#ffffff',
+                                backdropColor: 'transparent'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#ffffff',
+                                font: {
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 12, 41, 0.8)',
+                            titleColor: '#ffd54f',
+                            bodyColor: '#ffffff',
+                            borderColor: 'rgba(255, 255, 255, 0.2)',
+                            borderWidth: 1
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
