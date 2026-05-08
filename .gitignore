@@ -1,4 +1,3 @@
-*.pyc
 # Model weights (too large for GitHub)
 *.pt
 *.pth
